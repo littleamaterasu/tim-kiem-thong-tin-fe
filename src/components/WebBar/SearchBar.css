@@ -1,0 +1,50 @@
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    /* Cho phép các phần tử xuống dòng khi không đủ không gian */
+}
+
+.search-bar input {
+    padding: 8px;
+    border-radius: 999999px;
+    font-size: 16px;
+    flex: 1;
+    /* Chiếm toàn bộ không gian còn lại */
+    max-width: 33%;
+    /* Chiếm tối đa 1/3 chiều rộng của web bar */
+    min-width: 200px;
+    /* Đặt chiều rộng tối thiểu để tránh bị quá nhỏ */
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm tăng kích thước tổng thể */
+}
+
+.search-bar button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 999999px;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .search-bar {
+        flex-direction: column;
+        /* Đặt các phần tử trong cột trên màn hình nhỏ */
+        align-items: stretch;
+        /* Căn chỉnh tất cả phần tử vào chiều rộng của thanh tìm kiếm */
+    }
+
+    .search-bar input {
+        max-width: 100%;
+        /* Đảm bảo thanh tìm kiếm chiếm toàn bộ chiều rộng trên thiết bị nhỏ */
+    }
+}

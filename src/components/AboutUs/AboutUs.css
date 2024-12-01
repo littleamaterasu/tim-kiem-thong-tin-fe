@@ -1,0 +1,14 @@
+.about-us {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.about-us h2 {
+    margin-bottom: 10px;
+}
+
+.about-us p {
+    margin: 5px 0;
+}

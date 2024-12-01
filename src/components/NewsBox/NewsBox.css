@@ -1,0 +1,102 @@
+.news-box {
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+    flex-wrap: wrap;
+    /* Cho phép nội dung xuống dòng nếu cần */
+}
+
+.news-box img {
+    flex: 0 0 40%;
+    max-width: 40%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.news-box .content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: 100%;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+/* Lớp dành cho các thẻ chẵn */
+.news-box.even {
+    flex-direction: row-reverse;
+    /* Đảo vị trí ảnh và nội dung */
+}
+
+.news-box.even img {
+    margin-left: 20px;
+    /* Thêm khoảng cách khi đảo vị trí */
+    margin-right: 0;
+}
+
+.news-box.odd img {
+    margin-right: 20px;
+}
+
+/* Cấu trúc nội dung */
+.news-box h3 {
+    font-size: 20px;
+    margin: 0 0 8px 0;
+    font-weight: bold;
+    color: #333333;
+}
+
+.news-box .time {
+    font-size: 14px;
+    font-style: italic;
+    color: #888888;
+    margin-bottom: 8px;
+}
+
+.news-box .description {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 12px;
+}
+
+.news-box .content {
+    font-size: 14px;
+    color: #333333;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+@media (max-width: 768px) {
+    .news-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .news-box img {
+        max-width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .news-box .content-area {
+        padding-left: 0;
+    }
+
+    .news-box h3 {
+        font-size: 18px;
+    }
+
+    .news-box .description,
+    .news-box .content {
+        font-size: 13px;
+    }
+}

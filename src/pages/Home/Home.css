@@ -1,0 +1,106 @@
+.home {
+    padding: 20px 50px;
+    background: linear-gradient(to right, #ffffff, #cccccc);
+    /* Màu nền gradient nhẹ hơn */
+}
+
+.news-layout {
+    width: 100%;
+}
+
+.news-row {
+    display: block;
+    width: 100%;
+    margin-bottom: 16px;
+    /* Khoảng cách giữa các hàng */
+}
+
+/* Responsive - Chuyển layout thành một cột trên thiết bị nhỏ */
+@media (max-width: 768px) {
+    .news-row {
+        grid-template-columns: 100%;
+    }
+}
+
+.news-box {
+    display: flex;
+    flex-direction: row;
+    background-color: #f9f9f9;
+    /* Màu nền sáng và trung tính */
+    border-radius: 8px;
+    /* Bo tròn góc */
+    padding: 16px;
+    margin-bottom: 16px;
+    /* Thêm khoảng cách giữa các ô */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng nhẹ */
+    transition: all 0.3s ease-in-out;
+
+}
+
+.news-box img {
+    flex: 0 0 40%;
+    /* Chiếm 40% chiều rộng */
+    max-width: 40%;
+    height: auto;
+    border-radius: 8px;
+    /* Bo tròn góc ảnh */
+    object-fit: cover;
+}
+
+.news-box .content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-left: 16px;
+    /* Khoảng cách giữa ảnh và nội dung */
+}
+
+.news-box h3 {
+    font-size: 20px;
+    margin: 0 0 8px 0;
+    font-weight: bold;
+    color: #333333;
+}
+
+.news-box .time {
+    font-size: 14px;
+    font-style: italic;
+    color: #888888;
+    margin-bottom: 8px;
+}
+
+.news-box .description {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 12px;
+}
+
+.news-box .content {
+    font-size: 14px;
+    color: #333333;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+/* Hiệu ứng hover */
+.news-box:hover {
+    background-color: #eaeaea;
+    /* Hiệu ứng nền khi hover */
+    transition: background-color 0.3s ease;
+}
+
+/* Đối xứng chẵn lẻ */
+.news-box.even {
+    flex-direction: row-reverse;
+    /* Đảo vị trí ảnh và nội dung */
+}
+
+.news-box.even .content-area {
+    padding-left: 0;
+    padding-right: 16px;
+    /* Đổi vị trí padding */
+}
