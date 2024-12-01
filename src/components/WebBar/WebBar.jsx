@@ -4,11 +4,11 @@ import SearchBar from './SearchBar';
 import NavBar from './NavBar';
 import SettingsBar from './SettingsBar';
 
-function WebBar() {
+function WebBar({ onSearch }) {
     return (
         <div className="webbar">
             <NavBar />
-            <SearchBar />
+            <SearchBar onSearch={onSearch} />
             <SettingsBar />
         </div>
     );

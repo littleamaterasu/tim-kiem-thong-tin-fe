@@ -1,40 +1,19 @@
 import React, { useState } from 'react';
 import './SearchBar.css';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
-    const [keyword, setKeyword] = useState('');
+    const [keywords, setKeywords] = useState('');
+    const navigate = useNavigate(); // Sử dụng useNavigate để thay đổi URL
 
-    const handleSearch = async () => {
-        // Kiểm tra xem keyword có rỗng không
-        if (!keyword.trim()) {
+    const handleSearch = () => {
+        if (!keywords.trim()) {
             console.error('Keyword không được để trống');
             return; // Không gửi yêu cầu nếu keyword trống
         }
 
-        // Cấu trúc req body
-        const data = {
-            keyword: keyword,
-        };
-
-        try {
-            const response = await fetch('http://localhost:3010/search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-                credentials: 'include' // Gửi cookie cùng yêu cầu
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Search Result:', result);
-            } else {
-                console.error('Failed to fetch search results');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        // Điều hướng tới URL mới với từ khóa tìm kiếm
+        navigate(`/result/${keywords}`);
     };
 
     return (
@@ -42,8 +21,8 @@ function SearchBar() {
             <input
                 type="text"
                 placeholder="Nhập từ khóa tìm kiếm..."
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
             />
             <button onClick={handleSearch}>Tìm kiếm</button>
         </div>

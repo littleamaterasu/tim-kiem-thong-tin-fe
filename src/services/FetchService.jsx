@@ -1,14 +1,16 @@
 export default async function fetchNews(from, to) {
     try {
-        const response = await fetch('../../public/data.json'); // Đường dẫn từ thư mục public
+        // Gửi yêu cầu API với tham số from và to
+        const response = await fetch(`http://localhost:3000/news?from=${from}&to=${to}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        // Chuyển đổi kết quả trả về thành JSON
         const data = await response.json();
-        const last = Math.min(Math.min(to, data.length - 1), to + 9); // Giới hạn trong phạm vi hợp lệ
-        return data.slice(from, last + 1); // Lấy đoạn dữ liệu
+        return data.data; // Trả về dữ liệu từ API
     } catch (error) {
-        console.error('Error fetching or parsing data.json:', error);
+        console.error('Error fetching news:', error);
         return [];
     }
-};
+}
