@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import NewsBox from '../../components/NewsBox/NewsBox';
 import { useParams } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 function SearchResults() {
     const { keywords } = useParams();
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [analyzedKeywords, setAnalyzedKeyWords] = useState([]);
 
     const fetchSearchResults = async () => {
         setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch('http://localhost:3000/search', {
+            const response = await fetch(`http://${API_URL[import.meta.env.MODE]}:3000/search`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ keywords }),
+                body: JSON.stringify({ query: keywords }),
             });
 
             if (!response.ok) {
@@ -26,8 +28,9 @@ function SearchResults() {
             }
 
             const data = await response.json();
-            console.log('data', data.data)
-            setResults(data.data);
+            console.log('data', data)
+            setResults(data.results);
+            setAnalyzedKeyWords(data.analyzedKeywords);
         } catch (error) {
             setError(error.message);
         } finally {
@@ -50,13 +53,8 @@ function SearchResults() {
                 <div className="news-list">
                     {results.map((newsItem, index) => (
                         <NewsBox
-                            key={index}
-                            title={newsItem._source.title}
-                            imageUrl={newsItem._source.imageUrl}
-                            description={newsItem._source.description}
-                            timeAgo={newsItem._source.timeAgo}
-                            content={newsItem._source.content}
-                            left={index % 2 === 0}
+                            data={newsItem}
+                            keyword={analyzedKeywords}
                         />
                     ))}
                 </div>

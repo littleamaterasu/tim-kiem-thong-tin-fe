@@ -3,25 +3,29 @@ import React, { useState } from 'react';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 const Import = () => {
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
     const [jsonData, setJsonData] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const [progress, setProgress] = useState(0); // Tiến trình tải lên
+    const [progress, setProgress] = useState(0); // Tiến trình tổng
 
     const handleFileChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            if (selectedFile.size > MAX_FILE_SIZE) {
-                setMessage('File is too large. Please upload a smaller file.');
-                return;
+        const selectedFiles = Array.from(e.target.files);
+        const validFiles = selectedFiles.filter((file) => {
+            if (file.size > MAX_FILE_SIZE) {
+                setMessage(`File ${file.name} is too large. Please upload a smaller file.`);
+                return false;
             }
-            if (selectedFile.type !== 'application/json') {
-                setMessage('Please select a valid JSON file');
-            } else {
-                setFile(selectedFile);
-                setMessage('');
+            if (file.type !== 'application/json') {
+                setMessage(`File ${file.name} is not a valid JSON file.`);
+                return false;
             }
+            return true;
+        });
+
+        setFiles(validFiles);
+        if (validFiles.length > 0) {
+            setMessage('');
         }
     };
 
@@ -30,31 +34,29 @@ const Import = () => {
         setMessage('');
         setProgress(0);
 
-        let dataToSend = [];
-
-        // Nếu có dữ liệu JSON trong textarea
         if (jsonData) {
             try {
-                dataToSend = JSON.parse(jsonData);
-                await sendDataInChunks(dataToSend);
+                const parsedData = JSON.parse(jsonData);
+                await sendDataInChunks(parsedData);
             } catch (error) {
-                setMessage('Invalid JSON data');
+                setMessage('Invalid JSON data.');
                 setIsLoading(false);
                 return;
             }
-        }
-        // Nếu người dùng tải file lên
-        else if (file) {
-            await handleFileUpload(file);
+        } else if (files.length > 0) {
+            let totalFiles = files.length;
+            for (let i = 0; i < totalFiles; i++) {
+                await handleFileUpload(files[i], i + 1, totalFiles);
+            }
         } else {
-            setMessage('Please provide JSON data or upload a JSON file');
+            setMessage('Please provide JSON data or upload JSON files.');
             setIsLoading(false);
             return;
         }
     };
 
     const sendDataInChunks = async (data) => {
-        const chunkSize = 10; // Mỗi lần gửi tối đa 20 phần tử
+        const chunkSize = 10; // Mỗi lần gửi tối đa 10 phần tử
         const totalChunks = Math.ceil(data.length / chunkSize);
 
         for (let i = 0; i < totalChunks; i++) {
@@ -72,36 +74,35 @@ const Import = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to upload data');
+                throw new Error('Failed to upload data.');
             }
 
             const result = await response.json();
             setProgress(((chunkIndex / totalChunks) * 100).toFixed(2)); // Cập nhật tiến trình
             return result;
         } catch (error) {
-            setMessage('Error uploading data');
+            setMessage('Error uploading data.');
             setIsLoading(false);
         }
     };
 
-    // Hàm xử lý upload file
-    const handleFileUpload = async (file) => {
+    const handleFileUpload = async (file, fileIndex, totalFiles) => {
         const reader = new FileReader();
         reader.onload = async (event) => {
             try {
                 const fileContent = JSON.parse(event.target.result);
                 await sendDataInChunks(fileContent);
+                setProgress(((fileIndex / totalFiles) * 100).toFixed(2)); // Tiến trình tổng
             } catch (error) {
-                setMessage('Invalid file format or error reading the file.');
+                setMessage(`Invalid file format or error reading file ${file.name}.`);
                 setIsLoading(false);
             }
         };
         reader.readAsText(file);
     };
 
-    // Hàm reset lại để tải file mới
     const handleReset = () => {
-        setFile(null);
+        setFiles([]);
         setJsonData('');
         setProgress(0);
         setMessage('');
@@ -114,6 +115,7 @@ const Import = () => {
             <input
                 type="file"
                 accept="application/json"
+                multiple
                 onChange={handleFileChange}
                 disabled={isLoading}
             />

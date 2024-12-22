@@ -7,45 +7,52 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Montserrat', sans-serif;
     background-color: #ffffff;
+    justify-content: space-between;
     flex-wrap: wrap;
-    /* Cho phép nội dung xuống dòng nếu cần */
+    /* Allows wrapping of elements if needed */
 }
 
-.news-box img {
-    flex: 0 0 40%;
-    max-width: 40%;
+.image {
+    width: 40%;
+}
+
+.news-box-image {
+    flex: 0 0 100%;
+    /* Allow the image to take up the full width */
+    width: 100%;
+    /* Image stretches to full width of container */
     height: auto;
+    /* Maintain the aspect ratio of the image */
     object-fit: cover;
+    /* Ensure the image covers the container */
     border-radius: 8px;
+    /* Space between image and content */
 }
 
+/* Content area styling */
 .news-box .content-area {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     max-width: 100%;
-    margin-right: 20px;
     margin-left: 20px;
 }
 
-/* Lớp dành cho các thẻ chẵn */
+/* For even and odd classes, change flex direction based on the class */
 .news-box.even {
     flex-direction: row-reverse;
-    /* Đảo vị trí ảnh và nội dung */
 }
 
 .news-box.even img {
     margin-left: 20px;
-    /* Thêm khoảng cách khi đảo vị trí */
-    margin-right: 0;
 }
 
 .news-box.odd img {
     margin-right: 20px;
 }
 
-/* Cấu trúc nội dung */
+/* Title, time, description, and content styling */
 .news-box h3 {
     font-size: 20px;
     margin: 0 0 8px 0;
@@ -75,6 +82,14 @@
     white-space: normal;
 }
 
+/* Highlighted keywords styling */
+.highlight {
+    font-weight: bold;
+    color: #ff6347;
+    /* Highlight color */
+}
+
+/* Responsive layout for mobile devices */
 @media (max-width: 768px) {
     .news-box {
         flex-direction: column;
@@ -89,6 +104,7 @@
 
     .news-box .content-area {
         padding-left: 0;
+        padding-right: 0;
     }
 
     .news-box h3 {

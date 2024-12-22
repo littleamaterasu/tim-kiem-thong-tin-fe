@@ -61,12 +61,7 @@ function Home() {
                 className={`news-row ${index % 2 === 0 ? 'left-image' : 'right-image'}`}
             >
                 <NewsBox
-                    title={news.title}
-                    left={index % 2 === 0 ? true : false}
-                    imageUrl="https://picsum.photos/300/200"
-                    description={news.description}
-                    content={news?.content}
-                    timeAgo={news.timeAgo}
+                    data={news}
                     className="news-horizontal"
                 />
             </div>

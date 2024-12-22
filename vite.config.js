@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '192.168.0.103', // Change this to your local network IP
-    port: 5173,            // This is the default port Vite uses
-    strictPort: true       // Will fail if the port is already in use
+    host: true,
+    strictPort: true,
+    port: 5173
   }
 })
