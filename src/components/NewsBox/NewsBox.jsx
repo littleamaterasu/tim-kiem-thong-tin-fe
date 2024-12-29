@@ -48,7 +48,6 @@ const highlightText = (text, keywords) => {
 
 function NewsBox({ data, keyword }) {
     const [wordLimit, setWordLimit] = useState(200);
-    console.log(keyword)
 
     // Cập nhật giới hạn từ khi thay đổi kích thước màn hình
     useEffect(() => {
@@ -76,15 +75,9 @@ function NewsBox({ data, keyword }) {
             onClick={handleClick}
         >
             {/* Hiển thị ảnh */}
-            {data.imageUrl && <img src={data.imageUrl} alt={data.title} className="news-box-image" />}
-
             <div className='content-area'>
                 {/* Hiển thị tiêu đề */}
                 {data.title && <h2 className="news-box-title" dangerouslySetInnerHTML={{ __html: highlightText(data.title, keyword) }} />}
-
-                {/* Hiển thị mô tả */}
-                {data.description && <p className="news-box-description" dangerouslySetInnerHTML={{ __html: highlightText(data.description, keyword) }} />}
-
                 {/* Hiển thị một phần của nội dung */}
                 {data.content && <p className="news-box-content" dangerouslySetInnerHTML={{ __html: highlightText(truncateContent(data.content, wordLimit), keyword) }} />}
 
